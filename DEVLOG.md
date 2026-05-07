@@ -25,3 +25,32 @@
 - Build fully responsive landing page
 - Implement spend input form
 - Add persistent local state
+
+## Day 2 — 2026-05-07
+
+**Hours worked:** 6
+
+**What I did:**
+
+- Built responsive landing page sections
+- Implemented dynamic AI spend input form
+- Added persistent local state with Zustand
+- Improved mobile responsiveness and accessibility
+- Created reusable UI architecture for future audit engine integration
+
+**What I learned:**
+
+- Dynamic form state becomes complex quickly without careful type structure
+- Small UX details significantly improve perceived product quality
+
+**Blockers / what I'm stuck on:**
+
+- Deciding how granular the audit recommendation engine should be without overcomplicating the logic
+
+**Plan for tomorrow:**
+
+- Build audit engine
+- Add pricing rules
+- Implement recommendation calculations
+- Generate audit result pages
+
