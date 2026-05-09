@@ -1,14 +1,19 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/shared/reveal";
 import { AuditFormContent } from "@/components/audit/audit-form";
 import { AuditFormSchema, type AuditFormData } from "@/types/audit";
+import { runAuditAnalysis } from "@/services/audit-engine";
+import { createAuditId, saveAuditRecord } from "@/lib/share";
 
 export function AuditPage() {
+  const router = useRouter();
   const methods = useForm<AuditFormData>({
     resolver: zodResolver(AuditFormSchema),
     defaultValues: {
@@ -21,8 +26,21 @@ export function AuditPage() {
   const { handleSubmit, formState } = methods;
 
   const onSubmit = async (data: AuditFormData) => {
-    console.log("Form submitted:", data);
-    // TODO: Send to audit engine / backend
+    try {
+      const auditId = createAuditId();
+      const result = await runAuditAnalysis(data);
+
+      saveAuditRecord({
+        id: auditId,
+        createdAt: new Date().toISOString(),
+        result,
+        source: "local",
+      });
+
+      router.push(`/audit/${auditId}`);
+    } catch (error) {
+      toast.error("Failed to submit audit. Please try again.");
+    }
   };
 
   return (
